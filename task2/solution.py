@@ -1,4 +1,4 @@
- from collections import OrderedDict
+from collections import OrderedDict
 
 
 def groupby(func, seq):
@@ -25,16 +25,13 @@ def zip_with(func, *iterables):
 
 
 def cache(func, cache_size):
-    func_copy = lambda *x: func(*x)
-    func_copy.cache = collections.OrderedDict()
-
-    def func_cached(*x):
-        if cache_size <= 0:
+    if cache_size <= 0:
             return func
-        if not x in func_copy.cache.keys():
-            if len(func_copy.cache) == cache_size:
-                func_copy.cache.popitem(False)
-            func_copy.cache[x] = func_copy(*x)
-        return func_copy.cache[x]
-
+    func_cache = OrderedDict()
+    def func_cached(*x):
+        if not x in func_cache.keys():
+            if len(func_cache) == cache_size:
+                func_cache.popitem(False)
+            func_cache[x] = func(*x)
+        return func_cache[x]
     return func_cached
