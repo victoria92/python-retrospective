@@ -29,19 +29,19 @@ class TicTacToeBoard:
 
     def __setitem__(self, square, value):
         if square not in self.board.keys():
-            raise InvalidKey
+            raise InvalidKey('{} is not a valid key'.format(square))
         if not value in self.VALUES:
-            raise InvalidValue
+            raise InvalidValue('You can put only X and O')
         if self.board[square] != ' ':
-            raise InvalidMove
+            raise InvalidMove('This square is already filled')
         if self.last_played == value:
-            raise NotYourTurn
+            raise NotYourTurn("It's not your turn!")
         self.board[square] = value
         self.last_played = value
 
     def __getitem__(self, square):
         if square not in self.board.keys():
-            raise InvalidKey
+            raise InvalidKey('{} is not a valid key'.format(square))
         return self.board[square]
 
     def __str__(self):
