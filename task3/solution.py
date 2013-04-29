@@ -3,8 +3,7 @@ class Person:
         self.name = name
         self.birth_year = birth_year
         self.gender = gender
-        self.mother = mother
-        self.father = father
+        self.parents = [parent for parent in [mother, father] if parent]
         self.kids = []
         if mother:
             mother.kids.append(self)
@@ -14,19 +13,19 @@ class Person:
 
     def children(self, gender=None):
         if gender:
-            return [kid for kid in self.kids if kid.gender == gender]
+            return list(filter(lambda kid: kid.gender == gender, self.kids))
         else:
             return self.kids
 
     def siblings(self, gender=None):
-        mother_kids = self.mother.kids if self.mother else []
-        father_kids = self.father.kids if self.father else []
-        kids = set(mother_kids + father_kids) - {self}
+        children = set([kid for parent in self.parents
+                        for kid in parent.kids])
+        children -= {self}
 
         if gender:
-            return [kid for kid in kids if kid.gender == gender]
+            return [kid for kid in children if kid.gender == gender]
         else:
-            return kids
+            return children
 
     def get_brothers_and_sisters(self):
         return self.siblings()
