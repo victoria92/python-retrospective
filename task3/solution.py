@@ -18,16 +18,24 @@ class Person:
         else:
             return self.kids
 
-    def get_brothers_and_sisters(self):
+    def siblings(self, gender=None):
         mother_kids = self.mother.kids if self.mother else []
         father_kids = self.father.kids if self.father else []
-        return set(mother_kids + father_kids) - {self}
+        kids = set(mother_kids + father_kids) - {self}
+
+        if gender:
+            return [kid for kid in kids if kid.gender == gender]
+        else:
+            return kids
+
+    def get_brothers_and_sisters(self):
+        return self.siblings()
 
     def get_brothers(self):
-        return [kid for kid in self.get_brothers_and_sisters() if kid.gender == 'M']
+        return self.siblings('M')
 
     def get_sisters(self):
-        return [kid for kid in self.get_brothers_and_sisters() if kid.gender == 'F']
+        return self.siblings('F')
 
     def is_direct_successor(self, person):
         return person in self.kids
