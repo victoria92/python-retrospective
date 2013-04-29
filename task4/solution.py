@@ -18,6 +18,7 @@ class TicTacToeBoard:
     COLUMNS = ['A', 'B', 'C']
     ROWS = ['3', '2', '1']
     VALUES = ['X', 'O']
+    SQUARES = [j+i for i in ['3', '2', '1'] for j in ['A', 'B', 'C']]
 
     def __init__(self):
         self.board = {'A1': ' ', 'A2': ' ', 'A3': ' ',
@@ -44,14 +45,15 @@ class TicTacToeBoard:
         return self.board[square]
 
     def __str__(self):
-        return '\n  -------------\n3 | ' +\
-            '{} | {} | {}'.format(self.board['A3'], self.board['B3'], self.board['C3']) +\
-            ' |\n  -------------\n2 | ' +\
-            '{} | {} | {}'.format(self.board['A2'], self.board['B2'], self.board['C2']) +\
-            ' |\n  -------------\n1 | ' +\
-            '{} | {} | {}'.format(self.board['A1'], self.board['B1'], self.board['C1']) +\
-            ' |\n  -------------\n    ' +\
-            'A   B   C  \n'
+        return ('\n' +
+                '  -------------\n' +
+                '3 | {} | {} | {} |\n' +
+                '  -------------\n' +
+                '2 | {} | {} | {} |\n' +
+                '  -------------\n' +
+                '1 | {} | {} | {} |\n' +
+                '  -------------\n' +
+                '    A   B   C  \n').format(*[self.board[square] for square in self.SQUARES])
 
     def check_if_win(self, player):
         major_diagonal = [self.board['A3'], self.board['B2'], self.board['C1']]
