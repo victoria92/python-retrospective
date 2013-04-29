@@ -26,7 +26,7 @@ class TicTacToeBoard:
         self.state = None
 
     def __setitem__(self, square, value):
-        if not (isinstance(square, str) and re.match('^[A-C][1-3]$', square)):
+        if square not in self.board.keys():
             raise InvalidKey
         if not value in {'X', 'O'}:
             raise InvalidValue
@@ -38,7 +38,7 @@ class TicTacToeBoard:
         self.last_played = value
 
     def __getitem__(self, square):
-        if not (isinstance(square, str) and re.match('^[A-C][1-3]$', square)):
+        if square not in self.board.keys():
             raise InvalidKey
         return self.board[square]
 
