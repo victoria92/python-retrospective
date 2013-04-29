@@ -19,7 +19,9 @@ class NotYourTurn(Exception):
 
 class TicTacToeBoard:
     def __init__(self):
-        self.board = [[' ' for i in range(3)] for i in range(3)]
+        self.board = {'A1': ' ', 'A2': ' ', 'A3': ' ',
+                      'B1': ' ', 'B2': ' ', 'B3': ' ',
+                      'C1': ' ', 'C2': ' ', 'C3': ' '}
         self.last_played = None
         self.state = None
 
@@ -28,42 +30,42 @@ class TicTacToeBoard:
             raise InvalidKey
         if not value in {'X', 'O'}:
             raise InvalidValue
-        if self.board[int(square[1]) - 1][ord(square[0]) - ord('A')] != ' ':
+        if self.board[square] != ' ':
             raise InvalidMove
         if self.last_played == value:
             raise NotYourTurn
-        self.board[int(square[1]) - 1][ord(square[0]) - ord('A')] = value
+        self.board[square] = value
         self.last_played = value
 
     def __getitem__(self, square):
         if not (isinstance(square, str) and re.match('^[A-C][1-3]$', square)):
             raise InvalidKey
-        return self.board[3 - int(square[1])][ord(square[0]) - ord('A')]
+        return self.board[square]
 
     def __str__(self):
         representation = '\n  -------------\n3 | ' +\
-            ' | '.join(self.board[2]) +\
+            '{} | {} | {}'.format(self.board['A3'], self.board['B3'], self.board['C3']) +\
             ' |\n  -------------\n2 | ' +\
-            ' | '.join(self.board[1]) +\
+            '{} | {} | {}'.format(self.board['A2'], self.board['B2'], self.board['C2']) +\
             ' |\n  -------------\n1 | ' +\
-            ' | '.join(self.board[0]) +\
+            '{} | {} | {}'.format(self.board['A1'], self.board['B1'], self.board['C1']) +\
             ' |\n  -------------\n    ' +\
             'A   B   C  \n'
         return representation
 
     def check_if_win(self, player):
-        major_diagonal = [[self.board[i][i] for i in range(3)]]
-        minor_diagonal = [[self.board[i][2 - i] for i in range(3)]]
-        columns = [[self.board[i][j] for i in range(3)] for j in range(3)]
-        lines = self.board + columns + major_diagonal + minor_diagonal
+        major_diagonal = [[self.board['A3'], self.board['B2'], self.board['C1']]]
+        minor_diagonal = [[self.board['A1'], self.board['B2'], self.board['C3']]]
+        columns = [[self.board[j+str(i+1)] for i in range(3)] for j in ['A', 'B', 'C']]
+        rows = [[self.board[j+str(i+1)] for j in ['A', 'B', 'C']] for i in range(3)]
+        lines = major_diagonal + minor_diagonal + rows + columns
         for line in lines:
             if set(line) == {player}:
                 return True
 
     def is_full(self):
-        for row in self.board:
-            if ' ' in row:
-                return False
+        if ' ' in self.board.values():
+            return False
         return True
 
     def game_status(self):
@@ -81,3 +83,4 @@ class TicTacToeBoard:
                 return 'Draw!'
             else:
                 return 'Game in progress.'
+
