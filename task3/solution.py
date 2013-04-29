@@ -6,9 +6,9 @@ class Person:
         self.mother = mother
         self.father = father
         self.kids = []
-        if mother is not None:
+        if mother:
             mother.kids.append(self)
-        if father is not None:
+        if father:
             father.kids.append(self)
 
     def female(self):
@@ -24,8 +24,8 @@ class Person:
             return self.kids
 
     def get_brothers_and_sisters(self):
-        mother_kids = self.mother.kids if self.mother is not None else []
-        father_kids = self.father.kids if self.father is not None else []
+        mother_kids = self.mother.kids if self.mother else []
+        father_kids = self.father.kids if self.father else []
         return set(mother_kids + father_kids) - {self}
 
     def get_brothers(self):
