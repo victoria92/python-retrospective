@@ -1,6 +1,3 @@
-import re
-
-
 class InvalidKey(Exception):
     pass
 
@@ -18,6 +15,10 @@ class NotYourTurn(Exception):
 
 
 class TicTacToeBoard:
+    LETTERS = ['A', 'B', 'C']
+    NUMBERS = ['3', '2', '1']
+    VALUES = ['X', 'O']
+
     def __init__(self):
         self.board = {'A1': ' ', 'A2': ' ', 'A3': ' ',
                       'B1': ' ', 'B2': ' ', 'B3': ' ',
@@ -28,7 +29,7 @@ class TicTacToeBoard:
     def __setitem__(self, square, value):
         if square not in self.board.keys():
             raise InvalidKey
-        if not value in {'X', 'O'}:
+        if not value in VALUES:
             raise InvalidValue
         if self.board[square] != ' ':
             raise InvalidMove
@@ -54,11 +55,11 @@ class TicTacToeBoard:
         return representation
 
     def check_if_win(self, player):
-        major_diagonal = [[self.board['A3'], self.board['B2'], self.board['C1']]]
-        minor_diagonal = [[self.board['A1'], self.board['B2'], self.board['C3']]]
-        columns = [[self.board[j+str(i+1)] for i in range(3)] for j in ['A', 'B', 'C']]
-        rows = [[self.board[j+str(i+1)] for j in ['A', 'B', 'C']] for i in range(3)]
-        lines = major_diagonal + minor_diagonal + rows + columns
+        major_diagonal = [self.board['A3'], self.board['B2'], self.board['C1']]
+        minor_diagonal = [self.board['A1'], self.board['B2'], self.board['C3']]
+        columns = [[self.board[j+i] for i in NUMBERS] for j in LETTERS]
+        rows = [[self.board[j+i] for j in LETTERS] for i in NUMBERS]
+        lines = [major_diagonal] + [minor_diagonal] + rows + columns
         for line in lines:
             if set(line) == {player}:
                 return True
