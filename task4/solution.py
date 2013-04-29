@@ -53,7 +53,8 @@ class TicTacToeBoard:
                 '  -------------\n' +
                 '1 | {} | {} | {} |\n' +
                 '  -------------\n' +
-                '    A   B   C  \n').format(*[self.board[square] for square in self.SQUARES])
+                '    A   B   C  \n').format(*[self.board[square]
+                                              for square in self.SQUARES])
 
     def check_if_win(self, player):
         major_diagonal = [self.board['A3'], self.board['B2'], self.board['C1']]
@@ -85,4 +86,3 @@ class TicTacToeBoard:
                 return 'Draw!'
             else:
                 return 'Game in progress.'
-
