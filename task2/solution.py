@@ -29,6 +29,8 @@ def cache(func, cache_size):
     func_copy.cache = collections.OrderedDict()
 
     def func_cached(*x):
+        if cache_size <= 0:
+            return func
         if not x in func_copy.cache.keys():
             if len(func_copy.cache) == cache_size:
                 func_copy.cache.popitem(False)
