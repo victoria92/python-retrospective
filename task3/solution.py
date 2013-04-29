@@ -10,7 +10,6 @@ class Person:
         if father:
             father.kids.append(self)
 
-
     def children(self, gender=None):
         if gender:
             return list(filter(lambda kid: kid.gender == gender, self.kids))

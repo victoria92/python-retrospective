@@ -8,8 +8,6 @@ ZODIAC = {
     range(923, 1023): 'Везни',
     range(1023, 1122): 'Скорпион',
     range(1122, 1222): 'Стрелец',
-    range(101, 120): 'Козирог',
-    range(1222, 1232): 'Козирог',
     range(120, 219): 'Водолей',
     range(219, 321): 'Риби',
 }
@@ -19,3 +17,4 @@ def what_is_my_sign(day, month):
     for date, sign in ZODIAC.items():
         if 100*month + day in date:
             return sign
+    return 'Козирог'
