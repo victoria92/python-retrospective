@@ -1,4 +1,4 @@
-import collections
+ from collections import OrderedDict
 
 
 def groupby(func, seq):
