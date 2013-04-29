@@ -11,11 +11,6 @@ class Person:
         if father:
             father.kids.append(self)
 
-    def female(self):
-        return self.gender == 'F'
-
-    def male(self):
-        return self.gender == 'M'
 
     def children(self, gender=None):
         if gender:
@@ -29,10 +24,10 @@ class Person:
         return set(mother_kids + father_kids) - {self}
 
     def get_brothers(self):
-        return [kid for kid in self.get_brothers_and_sisters() if kid.male()]
+        return [kid for kid in self.get_brothers_and_sisters() if kid.gender == 'M']
 
     def get_sisters(self):
-        return [kid for kid in self.get_brothers_and_sisters() if kid.female()]
+        return [kid for kid in self.get_brothers_and_sisters() if kid.gender == 'F']
 
     def is_direct_successor(self, person):
         return person in self.kids
