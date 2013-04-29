@@ -59,9 +59,11 @@ class TicTacToeBoard:
     def check_if_win(self, player):
         major_diagonal = [self.board['A3'], self.board['B2'], self.board['C1']]
         minor_diagonal = [self.board['A1'], self.board['B2'], self.board['C3']]
+
         columns = [[self.board[j+i] for i in self.ROWS] for j in self.COLUMNS]
         rows = [[self.board[j+i] for j in self.COLUMNS] for i in self.ROWS]
         lines = [major_diagonal] + [minor_diagonal] + rows + columns
+
         for line in lines:
             if set(line) == {player}:
                 return True
